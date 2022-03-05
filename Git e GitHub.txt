@@ -3,13 +3,13 @@ Curso de
 Git e Github: Controle e compartilhe seu código
 -----------
 
-- as letras que forma GIT não têm um significado, mas é alvo de sarcasmo do próprio criador, Linus Torvalds
+- as letras que formam GIT não têm um significado, mas é alvo de sarcasmo do próprio criador, Linus Torvalds
 
-- Uma das vantagens do Git sobre outros sistemas de controle de versão é que com o Git você tem uma versão no seu repositório local, na sua máquina, podendo trabalhar em cima dessa versão e depois fazer o push para o versionador. Possível trabalhar "offline" e de modo distribuído (cada pessoa tem o arquivo em seu repositório local, depois devem ser resolvidos os problemas de merge entre alterações diferentes em um mesmo arquivo).
+- Uma das vantagens do Git sobre outros sistemas de controle de versão é que com o Git você tem uma versão no seu repositório local, na sua máquina, podendo trabalhar em cima dessa versão e depois fazer o push para o repositório remoto. Possível trabalhar "offline" e de modo distribuído (cada pessoa tem o arquivo em seu repositório local, depois devem ser resolvidos os problemas de merge entre alterações diferentes em um mesmo arquivo).
 
 - VCS: Version Control System
 
-- Git: ferramenta para o versionamento x GitHub: repositório remoto de código, muito utilizado pelos programadores e que também pode servir de "vitrine"/portifólio para aqueles que procuram por um emprego na área, de modo a poderem mostrar aos recrutadores os projetos que já desenvolveram.
+- O Git é a ferramenta para o versionamento x o GitHub é um repositório remoto de código, muito utilizado pelos programadores e que também pode servir de "vitrine"/portifólio para aqueles que procuram por um emprego na área, de modo a poderem mostrar aos recrutadores os projetos que desenvolvem ou já desenvolveram.
 
 - Git precisa ser instalado na máquina: git-scm.com (no Linux às vezes já vem instalado)
 
@@ -19,28 +19,30 @@ Git e Github: Controle e compartilhe seu código
 
 - HEAD: é nossa posição atual nos arquivos versionados (é o topo do versionamento), em referência ao último commit feito
 
-- master: geralmente o nome padrão do branch em que estamos trabalhando
+- master: geralmente o nome padrão do branch em que estamos trabalhando (no GitHub eles usam o nome "main" - será que é por causa do nome ser "master"...?)
 
-- é possível informar ao Git para não versionar alguns arquivos ou pastas; para isso, crie um arquivo chamado .gitignore (com o ponto no começo) e nele insira o nome dos arquivos e pastas (no caso de pastas, insira a barra / no final do nome da pasta) que não deverão ser versionados (informar o nome de uma pasta faz com que todo conteúdo dentro dela não seja versionado também)
+- é possível informar ao Git para não versionar alguns arquivos ou pastas; para isso, crie um arquivo chamado .gitignore (com o ponto no começo, sem extensão) e nele insira o nome dos arquivos e pastas (no caso de pastas, insira a barra / no final do nome da pasta) que não deverão ser versionados (informar o nome de uma pasta faz com que todo conteúdo dentro dela não seja versionado também)
 
 - Repositório remoto: é o nome dado ao repositório que servirá como o "servidor" do projeto que foi versionado. É nele que estará a versão corrente dos arquivos versionados. É nele que faremos o push de modificações e também é nele que as pessoas poderam clonar o código para trabalhar localmente. Eu acabo geralmente chamando de "repositório global". Pode ser tanto uma pasta na sua máquina como um repositório online (no GitHub, por exemplo).
 
-- GitHub: estando logado no site, podemos criar um novo repositório e, após criado, o próprio GitHub irá dar os comandos para fazer o push do nosso repositório local para este repositório no GitHub, ou também como criar tudo do zero
+- GitHub: estando logado no site, podemos criar um novo repositório e, após criado, o próprio GitHub irá dar os comandos para fazer o push do nosso repositório local para este repositório no GitHub, ou também como criar tudo do zero dentro do próprio site
+
+- Branch: é uma maneira de criar vertentes/ramos de desenvolvimento dentro de um projeto, de modo a não interferir no código compartilhado. Pode ser usado, por exemplo, para criar uma nova feature (sem danificar a branch principal) ou dividir o trabalho de uma equipe.
 
 ----
 commit
 ----
 - é a etapa inicial para salvar alterações no repositório central. Ao commitar, use a flag -m para escrever uma mensagem descritiva curta do que foi feito na alteração/criação do arquivo (ou arquivos) a ser commitado
 - cada commit recebe um HASH code, que serve como identificador único daquele commit
-- você pode fazer vários commits para um mesmo arquivo antes de efetuar o push (que é quando efetivamente as modificações são salvas no repositório central.
-- você decide quando fazer ou não um commit. Uma convenção, no entanto, é nunca commitar um código que não funciona. Uma recomentação é commitar a cada alteração significativa do seu projeto: nova feature, bug corrigido.
+- você pode fazer vários commits para um mesmo arquivo, ou diferentes arquivos, antes de efetuar o push (que é quando efetivamente as modificações são salvas no repositório central.
+- você decide quando fazer ou não um commit. Uma convenção, no entanto, é nunca commitar um código que não funciona. Uma recomendação é commitar a cada alteração significativa do seu projeto: nova feature, bug corrigido.
 
 +----------------------------+
    C O M A N D O S   G I T   
 +----------------------------+
 
-git init : inicia o versionamento em um repositório. Necessário navegar até a pasta e então executar este comando
--> flag --bare indica que o repositório é "puro", só irá conter arquivos, não serão feitas modificações nele. Pode ser utilizado quando criamos localmente o repositório remoto (que às vezes eu chamo de repositório global), que será o repositório acessado por todos para baixar arquivos e subir mudanças.
+git init : inicia o versionamento em um repositório. Necessário navegar até a pasta onde estão os códigos a serem versionados e então executar este comando
+-> flag --bare indica que o repositório é "puro", só irá conter arquivos, não serão feitas modificações nele. Pode ser utilizado quando criamos localmente o repositório remoto, que será o repositório acessado por todos para baixar arquivos e subir mudanças.
 
 git config --local user.name "Seu nome aqui"
 git config --local user.email "seu@email.aqui"
@@ -49,7 +51,7 @@ git config --local user.email "seu@email.aqui"
 git status : dá detalhes sobre os arquivos em seu repositório, por exemplo, se há arquivos que foram criados ou modificados e que ainda não foram enviados ao repositório central; em qual branch você está trabalhando.
 
 git add <nome_do_arquivo> : informa ao git que o arquivo deverá ser adicionado ao próximo commit a ser executado
--> caso sejam vários arquivos, pode ser usando o ponto: "git add ." . Mas atenção: nesse caso todos os arquivos da pasta serão adicionados. 
+-> caso sejam vários arquivos, pode ser usando o ponto: "git add ." . Mas atenção: nesse caso todos os arquivos da pasta serão adicionados. Para selecionar os arquivos manualmente, você pode inseri-los separados por espaço: git add <arq_1> <arq_2> <arq_3> ...
 
 git commit -m "<descricao_curta_de_seu_commit> : commita suas alterações para serem salvas no repositório central
 
@@ -58,7 +60,7 @@ git log : histórico de commits feitos, em ordem decrescente de data, trazendo n
 --oneline : histórico resumido: mostra somente parte do hash e mensagem de cada commit
 -p : histórico detalhado: mostra também as alterações feitas por cada commit
 
-git remote add <nome_do_repositorio_remoto> <endereco_para_o_repositorio_remoto> : cria uma ligação entre o repositório local e um repositório remoto, que servirá como repositório central. O endereço pode ser tanto uma pasta da própria máquina, quanto uma URL (para um repositório online criado no GitHub, por exemplo). O nome é o nome que você dará para esse repositório remoto. A convenção é usar o nome "origin"
+git remote add <nome_do_repositorio_remoto> <endereco_para_o_repositorio_remoto> : cria uma ligação entre o repositório local e um repositório remoto, que servirá como repositório central. O endereço pode ser tanto uma pasta da própria máquina (precisa ser preparada com o git init --bare), quanto uma URL (para um repositório online criado no GitHub, por exemplo). O nome é o nome que você dará para esse repositório remoto. A convenção é usar o nome "origin"
 
 git clone <caminho_do_repositorio_remoto> <nome_para_a_pasta_local>: clona um projeto, ou seja, baixa os arquivos de um repositório remoto para a máquina e salva em uma pasta com o nome especificado no comando. Com o projeto clonado, é possível alterar os arquivos, commitar e enviar para o repositório remoto. Comando deve ser dado na pasta em que você deseja salvar o repositório remoto. O caminho também pode ser a URL de um repositório online.
 -> o nome do repositório remoto será "origin", mas pode ser renomeado com git remote rename <nome_atual> <novo_nome>
@@ -70,3 +72,6 @@ git pull <nome_do_repositorio_remoto> <nome_da_branch> : baixa os arquivos do re
 
 git branch -M <novo_nome_da_branch> : comando para renomear a branch atual. Esse comando é sugerido quando você cria um repositório novo no GitHub, pois o GitHub trabalha com o nome "main" para a branch principal, sendo que no git o nome padrão da branch principal é "master"
 
+git branch <nome_da_nova_branch> : cria nova branch, porém, NÃO ativa a nova branch como principal; você continuará na branch atual
+
+git checkout <nome_da_branch> : altera a branch que será a ativa (move seu HEAD para esta nova branch)
