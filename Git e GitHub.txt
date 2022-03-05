@@ -17,13 +17,27 @@ Git e Github: Controle e compartilhe seu código
 
 - Git versiona repositórios, ou seja, é necessário criar uma pasta (que será o repositório) para os arquivos que você quer versionar.
 
-- commit: é a etapa inicial para salvar alterações no repositório central. Ao commitar, use a flag -m para escrever uma mensagem descritiva curta do que foi feito na alteração/criação do arquivo (ou arquivos) a ser commitado
+- HEAD: é onde estamos no código
+
+- master: geralmente o nome padrão do branch em que estamos trabalhando
+
+----
+commit
+----
+- é a etapa inicial para salvar alterações no repositório central. Ao commitar, use a flag -m para escrever uma mensagem descritiva curta do que foi feito na alteração/criação do arquivo (ou arquivos) a ser commitado
+- cada commit recebe um HASH code, que serve como identificador único daquele commit
+- você pode fazer vários commits para um mesmo arquivo antes de efetuar o push (que é quando efetivamente as modificações são salvas no repositório central.
+- 
 
 +----------------------------+
    C O M A N D O S   G I T   
 +----------------------------+
 
 git init : inicia o versionamento em um repositório. Necessário navegar até a pasta e então executar este comando
+
+git config --local user.name "Seu nome aqui"
+git config --local user.email "seu@email.aqui"
+-> são comandos para informar o nome e e-mail de quem está trabalhando naquele repositório local. É útil quando se trabalha em equipe, assim é possível identificar os autores das mudanças. O comando --local adiciona essas informações ao repositório aberto no git; caso queira que seja uma informação para todos os seus repositórios locais, use o --global. Estes comandos são necessários, caso contrário não será possível fazer commits
 
 git status : dá detalhes sobre os arquivos em seu repositório, por exemplo, se há arquivos que foram criados ou modificados e que ainda não foram enviados ao repositório central; em qual branch você está trabalhando.
 
@@ -32,7 +46,7 @@ git add <nome_do_arquivo> : informa ao git que o arquivo deverá ser adicionado 
 
 git commit -m "<descricao_curta_de_seu_commit> : commita suas alterações para serem salvas no repositório central
 
-git config --local user.name "Seu nome aqui"
-git config --local user.email "seu@email.aqui"
--> são comandos para informar o nome e e-mail de quem está trabalhando naquele repositório local. É útil quando se trabalha em equipe, assim é possível identificar os autores das mudanças. O comando --local adiciona essas informações ao repositório aberto no git; caso queira que seja uma informação para todos os seus repositórios locais, use o --global.
+git log : histórico de commits feitos, trazendo nome e email de quem commitou, o código Hash e a mensagem de cada commit
+
+
 
