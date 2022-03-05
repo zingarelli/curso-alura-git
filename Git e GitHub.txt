@@ -1,0 +1,38 @@
+====
+Curso de
+Git e Github: Controle e compartilhe seu código
+-----------
+
+- as letras que forma GIT não têm um significado, mas é alvo de sarcasmo do próprio criador, Linus Torvalds
+
+- Uma das vantagens do Git sobre outros sistemas de controle de versão é que com o Git você tem uma versão no seu repositório local, na sua máquina, podendo trabalhar em cima dessa versão e depois fazer o push para o versionador. Possível trabalhar "offline" e de modo distribuído (cada pessoa tem o arquivo em seu repositório local, depois devem ser resolvidos os problemas de merge entre alterações diferentes em um mesmo arquivo).
+
+- VCS: Version Control System
+
+- Git: ferramenta para o versionamento x GitHub: repositório remoto de código, muito utilizado pelos programadores e que também pode servir de "vitrine"/portifólio para aqueles que procuram por um emprego na área, de modo a poderem mostrar aos recrutadores os projetos que já desenvolveram.
+
+- Git precisa ser instalado na máquina: git-scm.com (no Linux às vezes já vem instalado)
+
+- Git Bash: é um terminal de comando que pode ser instalado durante a instalação do Git. Lembra o Vim. Os comandos para navegar em pastas e tal são iguais aos do Linux. Também tem umas cores para tornar a interface mais amigável e facilitar a leitura/execução dos comandos. Mas é possível também chamar o Git pelo CMD do Windows (acertando as variáveis no PATH)
+
+- Git versiona repositórios, ou seja, é necessário criar uma pasta (que será o repositório) para os arquivos que você quer versionar.
+
+- commit: é a etapa inicial para salvar alterações no repositório central. Ao commitar, use a flag -m para escrever uma mensagem descritiva curta do que foi feito na alteração/criação do arquivo (ou arquivos) a ser commitado
+
++----------------------------+
+   C O M A N D O S   G I T   
++----------------------------+
+
+git init : inicia o versionamento em um repositório. Necessário navegar até a pasta e então executar este comando
+
+git status : dá detalhes sobre os arquivos em seu repositório, por exemplo, se há arquivos que foram criados ou modificados e que ainda não foram enviados ao repositório central; em qual branch você está trabalhando.
+
+git add <nome_do_arquivo> : informa ao git que o arquivo deverá ser adicionado ao próximo commit a ser executado
+-> caso sejam vários arquivos, pode ser usando o ponto: "git add ." . Mas atenção: nesse caso todos os arquivos da pasta serão adicionados. 
+
+git commit -m "<descricao_curta_de_seu_commit> : commita suas alterações para serem salvas no repositório central
+
+git config --local user.name "Seu nome aqui"
+git config --local user.email "seu@email.aqui"
+-> são comandos para informar o nome e e-mail de quem está trabalhando naquele repositório local. É útil quando se trabalha em equipe, assim é possível identificar os autores das mudanças. O comando --local adiciona essas informações ao repositório aberto no git; caso queira que seja uma informação para todos os seus repositórios locais, use o --global.
+
