@@ -27,7 +27,8 @@ Git e Github: Controle e compartilhe seu código
 
 - GitHub: estando logado no site, podemos criar um novo repositório e, após criado, o próprio GitHub irá dar os comandos para fazer o push do nosso repositório local para este repositório no GitHub, ou também como criar tudo do zero dentro do próprio site
 
-- Branch: é uma maneira de criar vertentes/ramos de desenvolvimento dentro de um projeto, de modo a não interferir no código compartilhado. Pode ser usado, por exemplo, para criar uma nova feature (sem danificar a branch principal) ou dividir o trabalho de uma equipe.
+- Branch: é uma maneira de criar vertentes/ramos de desenvolvimento dentro de um projeto, de modo a não interferir no código compartilhado. Pode ser usado, por exemplo, para criar uma nova feature (sem danificar a branch principal) ou dividir o trabalho de uma equipe. A branch pode voltar à principal por meio do merge.
+-> https://git-school.github.io/visualizing-git/ é um bom site para visualmente entender branches
 
 ----
 commit
@@ -74,6 +75,10 @@ git branch -M <novo_nome_da_branch> : comando para renomear a branch atual. Esse
 
 git branch <nome_da_nova_branch> : cria nova branch, porém, NÃO ativa a nova branch como principal; você continuará na branch atual
 
-git checkout <nome_da_branch> : altera a branch que será a ativa (move seu HEAD para esta nova branch)
+git checkout <nome_da_branch> : altera a branch que será a ativa (move seu HEAD para esta nova branch), carregando a versão mais atual dos arquivos que estão nessa branch
 
 git checkout -b <nome_da_nova_branch> : cria nova branch E já altera para ser a ativa
+
+git merge <outra_branch> : faz um merge (combinação) da branch atual com o commit mais atual da outra_branch, para que as duas ramificações se unam em uma só. Será aberto um texto no VIM para incluir uma mensagem de commit de merge (se não quiser escrever nada, digite :x e pressione ENTER; caso esteja no modo de INSERT, pressione ESC antes de digitar o :x). No processo de merge, você não tem acesso aos commits anteriores da outra_branch
+
+git rebase <outra_branch> : traz todos os commits da outra_branch para a minha branch atual e atualiza as modificações. Os commits da outra_branch serão inseridos na "linha do tempo" dos commits a partir do momento em que houve a criação da outra_branch, e na frente destes seguirão os commits que foram feitos na branch atual. O último commit da branch atual será considerado como o ativo.
