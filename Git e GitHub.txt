@@ -75,3 +75,5 @@ git branch -M <novo_nome_da_branch> : comando para renomear a branch atual. Esse
 git branch <nome_da_nova_branch> : cria nova branch, porém, NÃO ativa a nova branch como principal; você continuará na branch atual
 
 git checkout <nome_da_branch> : altera a branch que será a ativa (move seu HEAD para esta nova branch)
+
+git checkout -b <nome_da_nova_branch> : cria nova branch E já altera para ser a ativa
