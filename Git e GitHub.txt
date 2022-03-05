@@ -25,6 +25,8 @@ Git e Github: Controle e compartilhe seu código
 
 - Repositório remoto: é o nome dado ao repositório que servirá como o "servidor" do projeto que foi versionado. É nele que estará a versão corrente dos arquivos versionados. É nele que faremos o push de modificações e também é nele que as pessoas poderam clonar o código para trabalhar localmente. Eu acabo geralmente chamando de "repositório global". Pode ser tanto uma pasta na sua máquina como um repositório online (no GitHub, por exemplo).
 
+- GitHub: estando logado no site, podemos criar um novo repositório e, após criado, o próprio GitHub irá dar os comandos para fazer o push do nosso repositório local para este repositório no GitHub, ou também como criar tudo do zero
+
 ----
 commit
 ----
@@ -56,12 +58,13 @@ git log : histórico de commits feitos, em ordem decrescente de data, trazendo n
 --oneline : histórico resumido: mostra somente parte do hash e mensagem de cada commit
 -p : histórico detalhado: mostra também as alterações feitas por cada commit
 
-git remote add <nome_do_repositorio_remoto> <endereco_para_o_repositorio_remoto> : cria uma ligação entre o repositório local e um repositório remoto, que servirá como repositório central. O endereço pode ser tanto uma pasta da própria máquina, quanto uma URL (para um repositório online criado no GitHub, por exemplo). O nome é o nome que voê dará para esse repositório remoto
+git remote add <nome_do_repositorio_remoto> <endereco_para_o_repositorio_remoto> : cria uma ligação entre o repositório local e um repositório remoto, que servirá como repositório central. O endereço pode ser tanto uma pasta da própria máquina, quanto uma URL (para um repositório online criado no GitHub, por exemplo). O nome é o nome que você dará para esse repositório remoto. A convenção é usar o nome "origin"
 
-git clone <caminho_do_repositorio_remoto> <nome_para_a_pasta_local>: clona um projeto, ou seja, baixa os arquivos de um repositório remoto para a máquina e salva em uma pasta com o nome especificado no comando. Comando deve ser dado na pasta em que você deseja salvar o repositório remoto. O caminho também pode ser a URL de um repositório online.
+git clone <caminho_do_repositorio_remoto> <nome_para_a_pasta_local>: clona um projeto, ou seja, baixa os arquivos de um repositório remoto para a máquina e salva em uma pasta com o nome especificado no comando. Com o projeto clonado, é possível alterar os arquivos, commitar e enviar para o repositório remoto. Comando deve ser dado na pasta em que você deseja salvar o repositório remoto. O caminho também pode ser a URL de um repositório online.
 -> o nome do repositório remoto será "origin", mas pode ser renomeado com git remote rename <nome_atual> <novo_nome>
 
 git push <nome_do_repositorio_remoto> <nome_da_branch> : envia as mudanças commitadas para o repositório remoto.
+-> flag -u : memoriza o repositório e branch desse push e deixa você usar o comando git push, sem precisar informar repositório e branch toda vez. É perigoso, caso você comece a trabalhar com outras branches e se esqueça de alterar na hora de fazer o push, então o recomendado é fazer o push completo, com nome do repositório remoto e nome da branch
 
 git pull <nome_do_repositorio_remoto> <nome_da_branch> : baixa os arquivos do repositório remoto
 
