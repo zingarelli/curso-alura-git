@@ -27,9 +27,6 @@ Git e Github: Controle e compartilhe seu código
 
 - GitHub: estando logado no site, podemos criar um novo repositório e, após criado, o próprio GitHub irá dar os comandos para fazer o push do nosso repositório local para este repositório no GitHub, ou também como criar tudo do zero dentro do próprio site
 
-- Branch: é uma maneira de criar vertentes/ramos de desenvolvimento dentro de um projeto, de modo a não interferir no código compartilhado. Pode ser usado, por exemplo, para criar uma nova feature (sem danificar a branch principal) ou dividir o trabalho de uma equipe. A branch pode voltar à principal por meio do merge.
--> https://git-school.github.io/visualizing-git/ é um bom site para visualmente entender branches
-
 ----
 commit
 ----
@@ -37,6 +34,15 @@ commit
 - cada commit recebe um HASH code, que serve como identificador único daquele commit
 - você pode fazer vários commits para um mesmo arquivo, ou diferentes arquivos, antes de efetuar o push (que é quando efetivamente as modificações são salvas no repositório central.
 - você decide quando fazer ou não um commit. Uma convenção, no entanto, é nunca commitar um código que não funciona. Uma recomendação é commitar a cada alteração significativa do seu projeto: nova feature, bug corrigido.
+
+----
+Branch 
+----
+- é uma maneira de criar vertentes/ramos de desenvolvimento dentro de um projeto, de modo a não interferir no código compartilhado. Pode ser usado, por exemplo, para criar uma nova feature (sem danificar a branch principal) ou dividir o trabalho de uma equipe.
+- https://git-school.github.io/visualizing-git/ é um bom site para visualmente entender branches
+- A branch pode voltar à principal por meio do merge.
+- merge e rebase podem gerar conflitos quando um mesmo arquivo foi modificado pelas duas branches em que está sendo feito o merge/rebase. Nesse caso, o git irá adicionar linhas nos arquivos que estão gerando conflito, indicando aonde os conflitos acontecem, e você é responsável por resolver esses conflitos (eliminando as linhas que você considera que não são mais necessárias para o atual estado de seu projeto. Resolvido os conflitos, segue o processo de commit dessas mudanças e, aí então o merge/rebase é finalizado
+
 
 +----------------------------+
    C O M A N D O S   G I T   
