@@ -41,7 +41,7 @@ Branch
 - é uma maneira de criar vertentes/ramos de desenvolvimento dentro de um projeto, de modo a não interferir no código compartilhado. Pode ser usado, por exemplo, para criar uma nova feature (sem danificar a branch principal) ou dividir o trabalho de uma equipe.
 - https://git-school.github.io/visualizing-git/ é um bom site para visualmente entender branches
 - A branch pode voltar à principal por meio do merge.
-- merge e rebase podem gerar conflitos quando um mesmo arquivo foi modificado pelas duas branches em que está sendo feito o merge/rebase. Nesse caso, o git irá adicionar linhas nos arquivos que estão gerando conflito, indicando aonde os conflitos acontecem, e você é responsável por resolver esses conflitos (eliminando as linhas que você considera que não são mais necessárias para o atual estado de seu projeto. Resolvido os conflitos, segue o processo de commit dessas mudanças e, aí então o merge/rebase é finalizado
+- merge e rebase podem gerar conflitos quando um mesmo arquivo foi modificado pelas duas branches em que está sendo feito o merge/rebase. Nesse caso, o git irá adicionar linhas nos arquivos que estão gerando conflito, indicando aonde os conflitos acontecem, e você é responsável por resolver esses conflitos (eliminando as linhas que você considera que não são mais necessárias para o atual estado de seu projeto. Resolvido os conflitos, segue o processo de commit dessas mudanças e, aí então o merge/rebase é finalizado (no caso do rebase, foi necessário executar o comando git rebase --continue
 
 
 +----------------------------+
@@ -87,4 +87,4 @@ git checkout -b <nome_da_nova_branch> : cria nova branch E já altera para ser a
 
 git merge <outra_branch> : faz um merge (combinação) da branch atual com o commit mais atual da outra_branch, para que as duas ramificações se unam em uma só. Será aberto um texto no VIM para incluir uma mensagem de commit de merge (se não quiser escrever nada, digite :x e pressione ENTER; caso esteja no modo de INSERT, pressione ESC antes de digitar o :x). No processo de merge, você não tem acesso aos commits anteriores da outra_branch
 
-git rebase <outra_branch> : traz todos os commits da outra_branch para a minha branch atual e atualiza as modificações. Os commits da outra_branch serão inseridos na "linha do tempo" dos commits a partir do momento em que houve a criação da outra_branch, e na frente destes seguirão os commits que foram feitos na branch atual. O último commit da branch atual será considerado como o ativo.
+git rebase <outra_branch> : traz todos os commits da outra_branch para a minha branch atual e atualiza as modificações. Os commits da outra_branch serão inseridos na "linha do tempo" dos commits a partir do momento em que houve a criação da outra_branch, e na frente destes seguirão os commits que foram feitos na branch atual. O último commit da branch atual será considerado como o ativo. Não gera um commit de merge
