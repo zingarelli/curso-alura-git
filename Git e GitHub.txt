@@ -68,3 +68,5 @@ git push <nome_do_repositorio_remoto> <nome_da_branch> : envia as mudanças comm
 
 git pull <nome_do_repositorio_remoto> <nome_da_branch> : baixa os arquivos do repositório remoto
 
+git branch -M <novo_nome_da_branch> : comando para renomear a branch atual. Esse comando é sugerido quando você cria um repositório novo no GitHub, pois o GitHub trabalha com o nome "main" para a branch principal, sendo que no git o nome padrão da branch principal é "master"
+
