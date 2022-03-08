@@ -23,17 +23,17 @@ Git e Github: Controle e compartilhe seu código
 
 - é possível informar ao Git para não versionar alguns arquivos ou pastas; para isso, crie um arquivo chamado .gitignore (com o ponto no começo, sem extensão) e nele insira o nome dos arquivos e pastas (no caso de pastas, insira a barra / no final do nome da pasta) que não deverão ser versionados (informar o nome de uma pasta faz com que todo conteúdo dentro dela não seja versionado também)
 
-- Repositório remoto: é o nome dado ao repositório que servirá como o "servidor" do projeto que foi versionado. É nele que estará a versão corrente dos arquivos versionados. É nele que faremos o push de modificações e também é nele que as pessoas poderam clonar o código para trabalhar localmente. Eu acabo geralmente chamando de "repositório global". Pode ser tanto uma pasta na sua máquina como um repositório online (no GitHub, por exemplo).
+- Repositório remoto: é o nome dado ao repositório que servirá como o "servidor" do projeto que foi versionado. É ele que indicará a versão corrente dos arquivos versionados e cuidará de todo o versionamento. É nele que faremos o push de modificações e também é nele que as pessoas poderão clonar o código para trabalhar localmente. Eu acabo geralmente chamando de "repositório global". Pode ser tanto uma pasta na sua máquina como um repositório online (no GitHub, por exemplo).
 
 - GitHub: estando logado no site, podemos criar um novo repositório e, após criado, o próprio GitHub irá dar os comandos para fazer o push do nosso repositório local para este repositório no GitHub, ou também como criar tudo do zero dentro do próprio site
 
 ----
 commit
 ----
-- é a etapa inicial para salvar alterações no repositório central. Ao commitar, use a flag -m para escrever uma mensagem descritiva curta do que foi feito na alteração/criação do arquivo (ou arquivos) a ser commitado
+- é a etapa inicial para salvar alterações no repositório remoto. Ao commitar, use a flag -m para escrever uma mensagem descritiva curta do que foi feito na alteração/criação do arquivo (ou arquivos) a ser commitado
 - cada commit recebe um HASH code, que serve como identificador único daquele commit
 - você pode fazer vários commits para um mesmo arquivo, ou diferentes arquivos, antes de efetuar o push (que é quando efetivamente as modificações são salvas no repositório central.
-- você decide quando fazer ou não um commit. Uma convenção, no entanto, é nunca commitar um código que não funciona. Uma recomendação é commitar a cada alteração significativa do seu projeto: nova feature, bug corrigido.
+- você decide quando fazer ou não um commit. Uma convenção, no entanto, é nunca commitar um código que não funciona. Uma recomendação é commitar a cada alteração significativa do seu projeto: nova feature, bug corrigido. Durante o curso, vários commits são feitos para explicar diversos tópicos e conceitos, mas não entender isso como sendo a forma correta de commitar.
 
 ----
 Branch 
@@ -41,8 +41,7 @@ Branch
 - é uma maneira de criar vertentes/ramos de desenvolvimento dentro de um projeto, de modo a não interferir no código compartilhado. Pode ser usado, por exemplo, para criar uma nova feature (sem danificar a branch principal) ou dividir o trabalho de uma equipe.
 - https://git-school.github.io/visualizing-git/ é um bom site para visualmente entender branches
 - A branch pode voltar à principal por meio do merge.
-- merge e rebase podem gerar conflitos quando um mesmo arquivo foi modificado pelas duas branches em que está sendo feito o merge/rebase. Nesse caso, o git irá adicionar linhas nos arquivos que estão gerando conflito, indicando aonde os conflitos acontecem, e você é responsável por resolver esses conflitos (eliminando as linhas que você considera que não são mais necessárias para o atual estado de seu projeto. Resolvido os conflitos, segue o processo de commit dessas mudanças e, aí então o merge/rebase é finalizado (no caso do rebase, foi necessário executar o comando git rebase --continue
-
+- merge e rebase podem gerar conflitos quando um mesmo arquivo foi modificado pelas duas branches em que está sendo feito o merge/rebase. Nesse caso, o git irá adicionar linhas nos arquivos que estão gerando conflito, indicando aonde os conflitos acontecem, e você é responsável por resolver esses conflitos (eliminando as linhas que você considera que não são mais necessárias para o atual estado de seu projeto. Resolvido os conflitos, segue o processo de commit dessas mudanças e, aí então o merge/rebase é finalizado (no caso do rebase, foi necessário executar o comando git rebase --continue para encerrar o rebase)
 
 +----------------------------+
    C O M A N D O S   G I T   
@@ -53,9 +52,9 @@ git init : inicia o versionamento em um repositório. Necessário navegar até a
 
 git config --local user.name "Seu nome aqui"
 git config --local user.email "seu@email.aqui"
--> são comandos para informar o nome e e-mail de quem está trabalhando naquele repositório local. É útil quando se trabalha em equipe, assim é possível identificar os autores das mudanças. O comando --local adiciona essas informações ao repositório aberto no git; caso queira que seja uma informação para todos os seus repositórios locais, use o --global. Estes comandos são necessários, caso contrário não será possível fazer commits
+-> são comandos para informar o nome e e-mail de quem está trabalhando naquele repositório local. É útil quando se trabalha em equipe, assim é possível identificar os autores das mudanças. O comando --local adiciona essas informações à pasta corrente; caso queira que seja uma informação para todos os seus repositórios locais, use o --global. Estes comandos são necessários, caso contrário vai dar problema na hora do commit
 
-git status : dá detalhes sobre os arquivos em seu repositório, por exemplo, se há arquivos que foram criados ou modificados e que ainda não foram enviados ao repositório central; em qual branch você está trabalhando.
+git status : dá detalhes sobre os arquivos em seu repositório, por exemplo, se há arquivos que foram criados ou modificados e que ainda não foram commitados ou enviados ao repositório central; em qual branch você está trabalhando.
 
 git add <nome_do_arquivo> : informa ao git que o arquivo deverá ser adicionado ao próximo commit a ser executado
 -> caso sejam vários arquivos, pode ser usando o ponto: "git add ." . Mas atenção: nesse caso todos os arquivos da pasta serão adicionados. Para selecionar os arquivos manualmente, você pode inseri-los separados por espaço: git add <arq_1> <arq_2> <arq_3> ...
@@ -67,7 +66,7 @@ git log : histórico de commits feitos, em ordem decrescente de data, trazendo n
 --oneline : histórico resumido: mostra somente parte do hash e mensagem de cada commit
 -p : histórico detalhado: mostra também as alterações feitas por cada commit
 
-git remote add <nome_do_repositorio_remoto> <endereco_para_o_repositorio_remoto> : cria uma ligação entre o repositório local e um repositório remoto, que servirá como repositório central. O endereço pode ser tanto uma pasta da própria máquina (precisa ser preparada com o git init --bare), quanto uma URL (para um repositório online criado no GitHub, por exemplo). O nome é o nome que você dará para esse repositório remoto. A convenção é usar o nome "origin"
+git remote add <nome_do_repositorio_remoto> <endereco_para_o_repositorio_remoto> : cria uma ligação entre o repositório local e um repositório remoto. O endereço pode ser tanto uma pasta da própria máquina (precisa ser preparada com o git init --bare), quanto uma URL (para um repositório online criado no GitHub, por exemplo). O nome é o nome que você dará para esse repositório remoto, e que será necessário na hora do push/pull. A convenção é usar o nome "origin"
 
 git clone <caminho_do_repositorio_remoto> <nome_para_a_pasta_local>: clona um projeto, ou seja, baixa os arquivos de um repositório remoto para a máquina e salva em uma pasta com o nome especificado no comando. Com o projeto clonado, é possível alterar os arquivos, commitar e enviar para o repositório remoto. Comando deve ser dado na pasta em que você deseja salvar o repositório remoto. O caminho também pode ser a URL de um repositório online.
 -> o nome do repositório remoto será "origin", mas pode ser renomeado com git remote rename <nome_atual> <novo_nome>
@@ -84,6 +83,12 @@ git branch <nome_da_nova_branch> : cria nova branch, porém, NÃO ativa a nova b
 git checkout <nome_da_branch> : altera a branch que será a ativa (move seu HEAD para esta nova branch), carregando a versão mais atual dos arquivos que estão nessa branch
 
 git checkout -b <nome_da_nova_branch> : cria nova branch E já altera para ser a ativa
+
+git checkout -- <nome_do_arquivo> : funciona como um Ctrl + Z, quando eu quero descartar as alterações feitas em um arquivo que está com o status "modified"; irá restaurar o arquivo corrente do meu repositório local. Atenção: você perde suas modificações ainda não commitadas no arquivo ou ainda não adicionadas ao stage. Atenção 2: se você já tiver adicionado o arquivo ao stage (por meio do git add <nome_do_arquivo>), esse comando de checkout não irá funcionar; primeiro você precisará fazer o git reset (ver comando mais abaixo)
+
+git reset HEAD <nome_do_arquivo> : serve para remover um arquivo que foi adicionado para ser commitado (ou seja, desfaz a ação do git add <nome_do_arquivo>); seu versionador voltará a olhar para o HEAD como sendo o estado atual; o arquivo voltará a aparecer como modified ao dar um git status
+
+git revert <HASH_do_commit>: desfaz o commit cujo hash você informou no comando. Irá desfazer esse commit e gerar um novo commit para informar essa alteração.
 
 git merge <outra_branch> : faz um merge (combinação) da branch atual com o commit mais atual da outra_branch, para que as duas ramificações se unam em uma só. Será aberto um texto no VIM para incluir uma mensagem de commit de merge (se não quiser escrever nada, digite :x e pressione ENTER; caso esteja no modo de INSERT, pressione ESC antes de digitar o :x). No processo de merge, você não tem acesso aos commits anteriores da outra_branch
 
