@@ -59,7 +59,7 @@ git status : dá detalhes sobre os arquivos em seu repositório, por exemplo, se
 git add <nome_do_arquivo> : informa ao git que o arquivo deverá ser adicionado ao próximo commit a ser executado
 -> caso sejam vários arquivos, pode ser usando o ponto: "git add ." . Mas atenção: nesse caso todos os arquivos que foram modificados no repositório local serão adicionados. Para selecionar os arquivos manualmente, você pode inseri-los separados por espaço: git add <arq_1> <arq_2> <arq_3> ...
 
-git commit -m "<descricao_curta_de_seu_commit> : commita suas alterações para serem salvas no repositório remoto
+git commit -m "<descricao_curta_de_seu_commit>" : commita suas alterações para serem salvas no repositório remoto
 
 git log : histórico de commits feitos, em ordem decrescente de data, trazendo nome e email de quem commitou, o código Hash e a mensagem de cada commit
 -> flags (veja mais em https://devhints.io/git-log):
@@ -109,6 +109,13 @@ git merge <outra_branch> : faz um merge (combinação) da branch atual com o com
 
 git rebase <outra_branch> : traz todos os commits da outra_branch para a minha branch atual e atualiza as modificações. Os commits da outra_branch serão inseridos na "linha do tempo" dos commits a partir do momento em que houve a criação da outra_branch, e na frente destes seguirão os commits que foram feitos na branch atual. O último commit da branch atual será considerado como o ativo. Não gera um commit de merge
 
-git diff: mostra as diferenças no código atual e o código do último commit, caso você tenha modificações no arquivo. E se for mais de um arquivo?
+git diff: mostra as diferenças no código atual e o código do último commit, caso você tenha modificações no arquivo. E se for mais de um arquivo? -> Ele vai mostrar as diferenças arquivo por arquivo; a linha de comando dá indicações de quando um arquivo termina e um novo será mostrado.
 
 git diff <hash_commmit_X>..<hash_commmit_Y>: mostra as diferenças desde o hash_commmit_X até o hash_commmit_Y
+-> o mesmo pode ser aplicado para branches (informação dada no resumo da aula, mas não mostrada durante a aula)
+
+git tag -a <nome_da_tag>: cria uma tag, que seria como uma "versão" do projeto, um release do projeto. Não será mais modificado a partir daquele ponto. Novas modificações irão para a próxima tag (próxima release). Pense como se você estivesse entregando a versão 1.0 do seu projeto, por exemplo (git tag -a v1.0) criação de uma release do código. 
+-> flag opcional -m "<mensagem>": adiciona uma mensagem
+-> antes o GitHub já adicionava a tag como release automaticamente, mas agora cabe ao próprio desenvolvedor navegar até a tag e gerar uma release
+
+git push <nome_do_repositorio_remoto> <nome_da_tag>: comando necessário para enviar a tag para o repositório remoto
