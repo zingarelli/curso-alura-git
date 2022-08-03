@@ -1,6 +1,9 @@
 ====
 Curso de
 Git e Github: Controle e compartilhe seu código
+Instrutor: Vinicius Dias
+
+Com algumas anotações do curso de GIT do Bootcamp TQI | DIO
 -----------
 
 - as letras que formam GIT não têm um significado, mas é alvo de sarcasmo do próprio criador, Linus Torvalds
@@ -9,11 +12,11 @@ Git e Github: Controle e compartilhe seu código
 
 - VCS: Version Control System
 
-- O Git é a ferramenta para o versionamento x o GitHub é um repositório remoto de código, muito utilizado pelos programadores e que também pode servir de "vitrine"/portifólio para aqueles que procuram por um emprego na área, de modo a poderem mostrar aos recrutadores os projetos que desenvolvem ou já desenvolveram.
+- O Git é a ferramenta para o versionamento; o GitHub é um repositório remoto de código, muito utilizado pelos programadores e que também pode servir de "vitrine"/portifólio para aqueles que procuram por um emprego na área, de modo a poderem mostrar aos recrutadores os projetos que desenvolvem ou já desenvolveram.
 
 - Git precisa ser instalado na máquina: git-scm.com (no Linux às vezes já vem instalado)
 
-- Git Bash: é um terminal de comando que pode ser instalado durante a instalação do Git. Lembra o Vim. Os comandos para navegar em pastas e tal são iguais aos do Linux. Também tem umas cores para tornar a interface mais amigável e facilitar a leitura/execução dos comandos. Mas é possível também chamar o Git pelo CMD do Windows (acertando as variáveis no PATH)
+- Git Bash: é um terminal de comando que pode ser instalado durante a instalação do Git. Lembra o Vim. Os comandos para navegar em pastas e tal são iguais aos do Linux. Também tem umas cores para tornar a interface mais amigável e facilitar a leitura/execução dos comandos. Mas é possível também chamar o Git pelo CMD do Windows (acertando as variáveis no PATH). Você também pode clicar com o botão direito na pasta em que está seu código e selecionar para abrir o Git Bash; com isso, ele será aberto já no caminho para esta pasta.
 
 - Git versiona repositórios, ou seja, é necessário criar uma pasta (que será o repositório) para os arquivos que você quer versionar.
 
@@ -26,6 +29,18 @@ Git e Github: Controle e compartilhe seu código
 - Repositório remoto: é o nome dado ao repositório que servirá como o "servidor" do projeto que foi versionado. É ele que indicará a versão corrente dos arquivos versionados e cuidará de todo o versionamento. É nele que faremos o push de modificações e também é nele que as pessoas poderão clonar o código para trabalhar localmente. Eu acabo geralmente chamando de "repositório global". Pode ser tanto uma pasta na sua máquina como um repositório online (no GitHub, por exemplo).
 
 - GitHub: estando logado no site, podemos criar um novo repositório e, após criado, o próprio GitHub irá dar os comandos para fazer o push do nosso repositório local para este repositório no GitHub, ou também como criar tudo do zero dentro do próprio site
+
+- SHA1 (Secure Hash Algorithm) - instrutor fala "Xá1": algoritmo de encriptação que gera um conjunto caracteres de 40 dígitos, um identificador único para o arquivo. É o que permite ao git identificar cada mudança nos arquivos versionados (cada mudança gera uma nova chave SHA1). Quando é feita uma alteração no conteúdo do arquivo, mas essa alteração faz com o que o arquivo tenha um conteúdo igual a alguma versão anterior, a chave SHA1 será a mesma, pois o código gerado para o conteúdo daquele arquivo resulta na mesma chave.
+
+- Blob (bolha): objeto no Git. É um arquivo que contém o conteúdo de um arquivo + metadados que o GIT inclui sobre o arquivo. É o blob que irá passar pelo SHA1 para gerar a chave
+
+- Tree: outro objeto no Git. A árvore que armazena um conjunto de blobs + SHA1 de cada blob + nome do arquivo contido em cada blob + outros metadados da árvore. Pode também armazenar outras árvores, de maneira recursiva. Pense como se fosse um explorador de arquivos: as árvores são as pastas e os blobs, os arquivos. A árvore também tem um SHA1 próprio. Qualquer alteração em um arquivo, irá alterar o SHA1 do blob e, consequentemente, irá alterar o SHA1 da árvore.
+
+- Commit: também é um objeto no Git. Aponta para uma árvore, para um parent (o último commit antes dele), para um autor e para uma mensagem. Possui também um timestamp de quando o objeto foi criado. Novamente, o commit também tem um SHA1 próprio.
+
+- Essa estruturação em blobs, trees e commit é uma das formas que o Git garante a segurança do versionamento. Aquela versão é única, ou seja, qualquer alteração em algum conteúdo ou metadado irá gerar um novo SHA1, impossibilitando de que haja uma manipulação maliciosa dos arquivos.
+
+- Ciclo de vida dos arquivos versionados: Untracked - Unmodified - Modified - Staged
 
 ----
 commit
@@ -47,16 +62,20 @@ Branch
    C O M A N D O S   G I T   
 +----------------------------+
 
-git init : inicia o versionamento em um repositório. Necessário navegar até a pasta onde estão os códigos a serem versionados e então executar este comando
+git init : inicia o versionamento em um diretório (cria um repositório). Necessário navegar até a pasta onde estão os códigos a serem versionados e então executar este comando
 -> flag --bare indica que o repositório é "puro", só irá conter arquivos, não serão feitas modificações nele. Pode ser utilizado quando criamos localmente o repositório remoto, que será o repositório acessado por todos para baixar arquivos e subir mudanças.
 
 git config --local user.name "Seu nome aqui"
 git config --local user.email "seu@email.aqui"
--> são comandos para informar o nome e e-mail de quem está trabalhando naquele repositório local. É útil quando se trabalha em equipe, assim é possível identificar os autores das mudanças. O comando --local adiciona essas informações à pasta corrente; caso queira que seja uma informação para todos os seus repositórios locais, use o --global. Estes comandos são necessários, caso contrário vai dar problema na hora do commit
+-> são comandos para informar o nome e e-mail de quem está trabalhando naquele repositório local. É útil quando se trabalha em equipe, assim é possível identificar os autores das mudanças. O comando --local adiciona essas informações ao repositório corrente; caso queira que seja uma informação para todos os seus repositórios locais, use o --global. Essas duas configs são necessárias, caso contrário vai dar problema na hora do commit
+
+git config --list : mostra a lista de configurações 
+
+git config --local --unset <nome_da_configuracao>: apaga da lista de configuração a proprieda informada
 
 git status : dá detalhes sobre os arquivos em seu repositório, por exemplo, se há arquivos que foram criados ou modificados e que ainda não foram commitados ou enviados ao repositório central; em qual branch você está trabalhando.
 
-git add <nome_do_arquivo> : informa ao git que o arquivo deverá ser adicionado ao próximo commit a ser executado
+git add <nome_do_arquivo> : informa ao git que o arquivo deverá ser adicionado ao próximo commit a ser executado. O arquivo vai para "stage" (é o estado em que o arquivo está no aguardo para ser "commitado").
 -> caso sejam vários arquivos, pode ser usando o ponto: "git add ." . Mas atenção: nesse caso todos os arquivos que foram modificados no repositório local serão adicionados. Para selecionar os arquivos manualmente, você pode inseri-los separados por espaço: git add <arq_1> <arq_2> <arq_3> ...
 
 git commit -m "<descricao_curta_de_seu_commit>" : commita suas alterações para serem salvas no repositório remoto
@@ -68,6 +87,8 @@ git log : histórico de commits feitos, em ordem decrescente de data, trazendo n
 
 git remote add <nome_do_repositorio_remoto> <endereco_para_o_repositorio_remoto> : cria uma ligação entre o repositório local e um repositório remoto. O endereço pode ser tanto uma pasta da própria máquina (precisa ser preparada com o git init --bare), quanto uma URL (para um repositório online criado no GitHub, por exemplo). O nome_do_repositorio_remoto é o nome que você dará para esse repositório remoto, e que será necessário na hora do push/pull. A convenção é usar o nome "origin"
 
+git remote -v : lista os repositórios 
+
 git clone <caminho_do_repositorio_remoto> <nome_para_a_pasta_local>: clona um projeto, ou seja, baixa os arquivos de um repositório remoto para a máquina e salva em uma pasta com o nome_para_a_pasta_local. Com o projeto clonado, é possível alterar os arquivos, commitar e enviar para o repositório remoto. Comando deve ser dado na pasta em que você deseja salvar o repositório remoto. O caminho também pode ser a URL de um repositório online.
 -> o nome do repositório remoto será "origin" para o projeto clonado, mas pode ser renomeado com git remote rename <nome_atual> <novo_nome>
 
@@ -75,6 +96,7 @@ git push <nome_do_repositorio_remoto> <nome_da_branch> : envia as mudanças comm
 -> flag -u : memoriza o repositório e branch desse push e deixa você usar o comando git push, sem precisar informar repositório e branch toda vez (não parece ser bem essa a definição, mas não consegui entender). É perigoso, caso você comece a trabalhar com outras branches e se esqueça de alterar na hora de fazer o push, então o recomendado é fazer o push completo, com nome do repositório remoto e nome da branch
 
 git pull <nome_do_repositorio_remoto> <nome_da_branch> : baixa os arquivos do repositório remoto. O que acontece com os arquivos que você alterou e ainda não commitou? Perde os dados? Os arquivos alterados não são baixados?
+   Resposta: se os arquivos estiverem alterados no repositório remoto e também foram modificados no repositório local, ao fazer o pull o git irá emitir um erro de que o arquivo será sobrescrito pelo merge. A solução que o git informa é commitar o arquivo que está modificado no repositório local (e resolver os problemas de merge quando fizer o push) ou usar o git stash antes de fazer o pull (ver mais abaixo sobre o git stash)
 
 git branch -M <novo_nome_da_branch> : comando para renomear a branch atual. Esse comando é sugerido quando você cria um repositório novo no GitHub, pois o GitHub trabalha com o nome "main" para a branch principal, sendo que no git o nome padrão da branch principal é "master"
 
