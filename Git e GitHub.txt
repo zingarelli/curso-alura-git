@@ -1,3 +1,5 @@
+Editando este arquivo no GitHub para verificar o que acontece se eu der um git pull no repositório local em que esse mesmo arquivo foi modificado (e ainda não commitado para o repositório remoto). Quero ver se ele irá sobrescrever ou gerar algum conflito. 
+
 ====
 Curso de
 Git e Github: Controle e compartilhe seu código
