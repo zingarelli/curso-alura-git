@@ -1,5 +1,3 @@
-Editando este arquivo no GitHub para verificar o que acontece se eu der um git pull no repositório local em que esse mesmo arquivo foi modificado (e ainda não commitado para o repositório remoto). Quero ver se ele irá sobrescrever ou gerar algum conflito. 
-
 ====
 Curso de
 Git e Github: Controle e compartilhe seu código
@@ -98,7 +96,9 @@ git push <nome_do_repositorio_remoto> <nome_da_branch> : envia as mudanças comm
 -> flag -u : memoriza o repositório e branch desse push e deixa você usar o comando git push, sem precisar informar repositório e branch toda vez (não parece ser bem essa a definição, mas não consegui entender). É perigoso, caso você comece a trabalhar com outras branches e se esqueça de alterar na hora de fazer o push, então o recomendado é fazer o push completo, com nome do repositório remoto e nome da branch
 
 git pull <nome_do_repositorio_remoto> <nome_da_branch> : baixa os arquivos do repositório remoto. O que acontece com os arquivos que você alterou e ainda não commitou? Perde os dados? Os arquivos alterados não são baixados?
-   Resposta: se os arquivos estiverem alterados no repositório remoto e também foram modificados no repositório local, ao fazer o pull o git irá emitir um erro de que o arquivo será sobrescrito pelo merge. A solução que o git informa é commitar o arquivo que está modificado no repositório local (e resolver os problemas de merge quando fizer o push) ou usar o git stash antes de fazer o pull (ver mais abaixo sobre o git stash)
+   Resposta: se os arquivos estiverem alterados no repositório remoto e também foram modificados no repositório local (mas ainda não commmitados), ao fazer o pull o git irá emitir um erro de que o arquivo será sobrescrito pelo merge. A solução que o git informa é commitar o arquivo que está modificado no repositório local ou usar o git stash antes de fazer o pull (ver mais abaixo sobre o git stash).
+      Se optar por commitar, ao fazer o git pull o próprio git irá fazer o merge das modificações que estão no repositório remoto e no local.
+      Se optar pelo stash, ao fazer o git pull o arquivo será atualizado somente com as modificações do repositório remoto e você fica responsável por trazer as modificações que estão no stash e resolver os conflitos de merge
 
 git branch -M <novo_nome_da_branch> : comando para renomear a branch atual. Esse comando é sugerido quando você cria um repositório novo no GitHub, pois o GitHub trabalha com o nome "main" para a branch principal, sendo que no git o nome padrão da branch principal é "master"
 
@@ -108,13 +108,17 @@ git checkout <nome_da_branch> : altera a branch que será a ativa (move seu HEAD
 
 git checkout -b <nome_da_nova_branch> : cria nova branch E já altera para ser a ativa
 
-git checkout <HASH_do_commit>: navega para um commit específico do log. Serão carregados os arquivos desse commit, PORÉM, qualquer alteração feita no código, inclusive commits, NÃO entrarão no histórico. Para que essas alterações entrem no histórico do projeto, você deve criar uma branch (pode usar o git checkout -b <nome_da_nova_branch>)
+git merge <outra_branch> : faz um merge (combinação) da branch atual com o commit mais atual da outra_branch, para que as duas ramificações se unam em uma só. Será aberto um texto no VIM para incluir uma mensagem de commit de merge (se não quiser escrever nada, digite :x e pressione ENTER; caso esteja no modo de INSERT, pressione ESC antes de digitar o :x). No processo de merge, você não tem acesso aos commits anteriores da outra_branch (mas eles ainda estarão no histórico da outra_branch, caso você faça um checkout nela).
 
-git checkout -- <nome_do_arquivo> : funciona como um Ctrl + Z, quando eu quero descartar as alterações feitas em um arquivo que está com o status "modified"; irá restaurar o arquivo corrente do meu repositório local. Atenção: você perde suas modificações ainda não commitadas no arquivo ou ainda não adicionadas ao stage. Atenção 2: se você já tiver adicionado o arquivo ao stage (por meio do git add <nome_do_arquivo>), esse comando de checkout não irá funcionar; primeiro você precisará fazer o git reset (ver comando mais abaixo)
--> parece que esse é o comando antigo. O novo é git restore <file>
+git rebase <outra_branch> : traz todos os commits da outra_branch para a branch atual e atualiza as modificações. Os commits da outra_branch serão inseridos na "linha do tempo" dos commits a partir do momento em que houve a criação da outra_branch, e na frente destes seguirão os commits que foram feitos na branch atual. O último commit da branch atual será considerado como o ativo. Não gera um commit de merge.
 
-git reset HEAD <nome_do_arquivo> : serve para remover um arquivo que foi adicionado para ser commitado (ou seja, desfaz a ação do git add <nome_do_arquivo>); seu versionador voltará a olhar para o HEAD como sendo o estado atual; o arquivo voltará a aparecer como modified ao dar um git status
--> parece que esse é o comando antigo; o novo é git restore --staged <file>
+git checkout <HASH_do_commit>: navega para um commit específico do log. Serão carregados os arquivos desse commit, PORÉM, qualquer alteração feita no código, inclusive commits, NÃO entrarão no histórico. Para que essas alterações entrem no histórico do projeto, você deve criar uma branch (pode usar o git checkout -b <nome_da_nova_branch> após ter navegado para o commit desejado)
+
+((antigo)) git checkout -- <nome_do_arquivo> : funciona como um Ctrl + Z, quando eu quero descartar as alterações feitas em um arquivo que está com o status "modified"; irá restaurar o arquivo corrente do meu repositório local. Atenção: você perde suas modificações ainda não commitadas no arquivo ou ainda não adicionadas ao stage. Atenção 2: se você já tiver adicionado o arquivo ao stage (por meio do git add <nome_do_arquivo>), esse comando de checkout não irá funcionar; primeiro você precisará fazer o git reset (ver comando mais abaixo)
+   esse é o comando antigo. O novo é git restore <file>
+
+((antigo)) git reset HEAD <nome_do_arquivo> : serve para remover um arquivo que foi adicionado para ser commitado (ou seja, desfaz a ação do git add <nome_do_arquivo>); seu versionador voltará a olhar para o HEAD como sendo o estado atual; o arquivo voltará a aparecer como modified ao dar um git status
+   esse é o comando antigo; o novo é git restore --staged <file>
 
 git revert <HASH_do_commit>: desfaz o commit cujo hash você informou no comando. Irá desfazer esse commit e gerar um novo commit para informar essa alteração. Seu código voltará a ser aquele do último commit antes do que sofreu o revert (você perde as alterações do commit que sofreu o revert)
 -> não precisa passar o código hash completo. Pode passar somente os 7 caracteres iniciais
@@ -123,15 +127,11 @@ git stash: salva os arquivos em um local temporário, por exemplo, para alteraç
 
 git stash list: lista todas as modificações que foram salvas no stash (caso você tenha usado o comando git stash mais de uma vez)
 
-git stash apply <numero_da_lista>: traz de volta as modificações que foram salvas e faz um merge com as outra alterações que foram feitas desde então. O numero_da_lista é o numero que vem na lista do git stash list e que você quer recuperar.
+git stash apply <numero_da_lista>: traz de volta as modificações que foram salvas e faz um merge com as outras alterações que foram feitas desde então. O numero_da_lista é o numero que vem entre chaves na lista do git stash list e que você quer recuperar (stash@{0}:).
 
 git stash drop <numero_da_lista>: remove o que foi salvo na stash
 
 git stash pop: traz as modificações do último git stash feito e remove ele da lista do stash (é uma combinação de git stash apply 0 e git stash drop); é como um pop de pilha
-
-git merge <outra_branch> : faz um merge (combinação) da branch atual com o commit mais atual da outra_branch, para que as duas ramificações se unam em uma só. Será aberto um texto no VIM para incluir uma mensagem de commit de merge (se não quiser escrever nada, digite :x e pressione ENTER; caso esteja no modo de INSERT, pressione ESC antes de digitar o :x). No processo de merge, você não tem acesso aos commits anteriores da outra_branch (mas eles ainda estarão no histórico da outra_branch, caso você faça um checkout nela).
-
-git rebase <outra_branch> : traz todos os commits da outra_branch para a minha branch atual e atualiza as modificações. Os commits da outra_branch serão inseridos na "linha do tempo" dos commits a partir do momento em que houve a criação da outra_branch, e na frente destes seguirão os commits que foram feitos na branch atual. O último commit da branch atual será considerado como o ativo. Não gera um commit de merge
 
 git diff: mostra as diferenças no código atual e o código do último commit, caso você tenha modificações no arquivo. E se for mais de um arquivo? -> Ele vai mostrar as diferenças arquivo por arquivo; a linha de comando dá indicações de quando um arquivo termina e um novo será mostrado.
 
@@ -141,5 +141,7 @@ git diff <hash_commmit_X>..<hash_commmit_Y>: mostra as diferenças desde o hash_
 git tag -a <nome_da_tag>: cria uma tag, que seria como uma "versão" do projeto, um release do projeto. Não será mais modificado a partir daquele ponto. Novas modificações irão para a próxima tag (próxima release). Pense como se você estivesse entregando a versão 1.0 do seu projeto, por exemplo (git tag -a v1.0) criação de uma release do código. 
 -> flag opcional -m "<mensagem>": adiciona uma mensagem
 -> antes o GitHub já adicionava a tag como release automaticamente, mas agora cabe ao próprio desenvolvedor navegar até a tag e gerar uma release
+
+git tag: mostra todas as tags criadas
 
 git push <nome_do_repositorio_remoto> <nome_da_tag>: comando necessário para enviar a tag para o repositório remoto
