@@ -1,6 +1,6 @@
 ====
 Curso de
-Git e Github: Controle e compartilhe seu código
+Git e GitHub: Controle e compartilhe seu código
 Instrutor: Vinicius Dias
 
 Com algumas anotações do curso de GIT do Bootcamp TQI | DIO
@@ -145,3 +145,68 @@ git tag -a <nome_da_tag>: cria uma tag, que seria como uma "versão" do projeto,
 git tag: mostra todas as tags criadas
 
 git push <nome_do_repositorio_remoto> <nome_da_tag>: comando necessário para enviar a tag para o repositório remoto
+
+====
+Curso de
+Git e GitHub: estratégias de ramificação, Conflitos e Pull Requests
+Instrutor: Vinicius Dias
+-----------
+
+Issues no GitHub
+É uma seção presente nos repositórios do GitHub, em que as pessoas podem enviar um texto à equipe do repositório, reportando algum problema que encontraram no código/projeto; ela também pode ser utilizada para tirar dúvidas, entrar em contato com os desenvolvedores. É possível utilizá-la para o controle de melhorias/erros apontados pelos usuários, podendo fazer buscas com filtros e categorizar as issues com tags.
+
+Pull Requests e Fork
+Fork é uma funcionalidade do GitHub, que permite que você copie para seu repositório remoto uma cópia de um projeto de outro usuário do GitHub. Toda a estrutura e arquivos do projeto serão copiados para seu repositório.
+   Você poderá fazer modificações no projeto, inserir novos arquivos, novas branches, commmits, etc. Essas modificações ficarão somente em SEU projeto, NÃO serão enviadas para o projeto original do qual o fork foi feito.
+   Atualizações no projeto original NÃO serão pegas pelo git pull. Caso queira atualizar o seu repositório com as atualizações do original, é necessário criar um remote para o repositório original, baixar as atualizações com o comando git fetch e depois fazer um merge ou rebase da branch principal desse remote com sua branch
+      Diferença para o git clone: o clone faz o download do repositório para a sua máquina, mas a referência (o remote) continua sendo o repositório original. 
+
+Caso deseje enviar as modificações feitas ao projeto original para o qual você fez o fork, é possível utilizando a funcionalidade de Pull Request (PR) do GitHub
+   É possível enviar um título e um texto com as modificações feitas. O GitHub irá mostrar o diff dos arquivos modificados e também já avisa se consegue fazer o merge automático.
+   O responsável pelo repositório original poderá analisar os PR e decidir se irá fazer ou não o merge da solicitação. Tudo isso é feito dentro do GitHub.
+
+União de commits
+É possível juntar commits utilizando o git rebase. Isso só funciona com commits que ainda não foram enviados ao repositório remoto via git push. Se você tentar fazer após o push, irá funcionar, mas quando você fizer o push dessa união, o git irá reportar erro de que seu repositório local está atrasado com relação ao remoto e irá sugerir um merge (ou seja, não adiantará de nada) 
+   git rebase -i HEAD~3
+      -i de interativo
+      HEAD~3 informa para selecionar os 3 últimos commits a partir do HEAD
+
+   git rebase -i <HASH_do_commit>
+      irá selecionar todos os commits posteriores a <HASH_do_commit> (ele não estará incluso)
+
+   Irá abrir o editor de texto com a lista dos commits, para você analisar e marcar como eles ficarão. Digitar pick (ou p) mantém o commit; digitar squash (ou s) é o que une o commit ao anterior na lista; há outras opções que o editor fornece.
+
+   Será gerado um novo commit para informar da ação que foi feita. É possível editar a mensagem utilizando o texto dos outros commits relacionados.
+
+Cherry-pick
+É o nome que se dá à ação de selecionar um commit específico e trazer para o HEAD da branch atual. Imagine, por exemplo, que há uma branch em que uma nova funcionalidade está sendo desenvolvida, mas ainda não está pronta. No entanto, uma modificação feita nessa branch está sendo necessária na branch principal (correção de um bug, por exemplo). É possível, neste caso, usar o cherry-pick para trazer para a branch principal o commit que possui essa modificação. Será feito um merge (ou deverão ser resolvidos os conflitos) e um novo commit será gerado.
+Quando a nova funcionalidade na outra branch estiver finalizada e for feito o git rebase, não irá haver conflito com o commit que foi trazido pelo cherry-pick - o Git irá entender e organizar o histórico da maneira correta.
+   git cherry-pick <HASH_do_commit>
+
+Bisect
+É uma maneira de navegar pelos commits e ver o que foi alterado, em busca, por exemplo, do momento em que alguma alteração indesejada foi feita ou um bug foi introduzido.
+Necessário indicar o commit onde algo indesejado aconteceu (bad) e o commit em que possivelmente estava tudo ok (good). O git irá percorrer os commits intermediários, possibilitando olhar as alterações que foram feitas e indicar ao git se o commit é good ou bad. Por meio da navegação, é possível ver o HASH do commit em que estava tudo OK e reverter o código a esse commit ou verificar as alterações indesejadas e removê-las do código atual.
+É uma alternativa mais interativa para não precisar ficar fazendo manualmente git checkout ou diff
+
+Blame
+Apesar do nome (culpar), o comando informa o último usuário que alterou cada linha do código. Informa também o hash do commit e data da modificação.
+   git blame <nome_do_arquivo>
+Acredito que o VS Code tem uma extensão que faz a mesma coisa.
+
+Convenções sobre master e branch (mais para o caso de estar trabalhando em uma empresa)
+Não desenvolver na master. Deixar nela o código que está pronto para ir em produção. 
+Criar branches para desenvolver seu código. Depois de finalizado e validado, aí sim fazer o merge/rebase com a master para que vá para produção.
+   Sugestão: criar uma branch de development e, dentro dela, criar branches para cada feature nova. À medida que essas features vão sendo finalizadas e validadas, faz o merge para a branch de development. Ao finalizar todas as features especificadas e tendo feita todas as validações, cria-se uma nova branch de release e faz o merge com a branch de development. Nesta branch de release é possível fazer novos testes e correções e, estando tudo validado, aí então faz-se o checkout para a main e merge com a release (possivelmente também gerando uma tag de nova release).
+   Bugs que precisam ser corrigidos com urgência poderiam ficar dentro de uma branch de hotfix. Após corrigidos, é feito o merge com a master e também com development, para manter ambos atualizados com a correção do bug.
+   Essa estratégia de organização é chamado de Git Flow
+   Link de exemplo com uma imagem: https://cdn-images-1.medium.com/max/1200/1*8-zDz1s5Atux_yNW_mXmfg@2x.png
+
+Hooks
+Ações a serem executadas quando certos eventos do git acontece. Por exemplo: executar um script de testes no código antes de todo commit (pre-commit); executar um script de deploy após um push (post-receive).
+Scripts de exemplo para alguns eventos se encontram na pasta hook, dentro da pasta .git, e o final do nome de cada arquivo é .sample. Você pode criar um arquivo dentro dessa pasta com o mesmo nome menos o sample para executar o hook.
+Lista de hooks e mais infos: https://githooks.com
+O GitHub possui algo parecido, chamado GitHub Actions.
+
+Sugestões de softwares com GUI para facilitar a visualização/utilização do Git
+Git Cola, GitHub Desktop, GitKraken (este último tem até a implementação da estratégia do Git Flow)
+O próprio VS Code possui algumas funcionalidades para versionar com o git e linkar com o GitHub
